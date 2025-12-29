@@ -55,6 +55,7 @@ def render(view_matrix:torch.Tensor,proj_matrix:torch.Tensor,
            actived_sh_degree:int,output_shape:tuple[int,int],pp:arguments.PipelineParams)->tuple[torch.Tensor,torch.Tensor,torch.Tensor,torch.Tensor,torch.Tensor]:
 
     #gs projection
+    # TODO 3D 高斯 -> 2D 高斯投影
     nvtx.range_push("Proj")
     transform_matrix=utils.wrapper.CreateTransformMatrix.call_fused(scale,rot)
     J=utils.wrapper.CreateRaySpaceTransformMatrix.call_fused(xyz,view_matrix,proj_matrix,output_shape,False)#todo script
@@ -78,6 +79,8 @@ def render(view_matrix:torch.Tensor,proj_matrix:torch.Tensor,
         tiles=StatisticsHelperInst.cached_sorted_tile_list[StatisticsHelperInst.cur_sample].unsqueeze(0)
     except:
         pass
+    
+    # TODO 2D 高斯光栅化
     img,transmitance,depth,normal,lst_contributor=utils.wrapper.GaussiansRasterFunc.apply(sorted_pointId,tile_start_index,ndc_pos,inv_cov2d,color,opacity,tiles,
                                             output_shape[0],output_shape[1],pp.tile_size[0],pp.tile_size[1],pp.enable_transmitance,pp.enable_depth)
     

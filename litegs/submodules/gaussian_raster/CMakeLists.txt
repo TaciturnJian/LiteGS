@@ -17,6 +17,7 @@ set(SOURCES
 )
 
 add_library(litegs_fused MODULE ${SOURCES})
+
 if(MSVC)
     # /MD or /MDd
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")

@@ -26,6 +26,7 @@ struct PackedParams
     float inv_cov11;
     half2 rg;
     half2 ba;
+    half2 tag[16];
 };
 
 struct PackedGrad
@@ -261,6 +262,7 @@ __global__ void raster_forward_kernel(
                     reg_buffer[i].lst_contributor += (0x00010001 & active_mask);
                     reinterpret_cast<unsigned int*>(&reg_buffer[i].alpha)[0] &= alpha_valid_mask;
 
+                    // TODO 颜色权重与标签属性
                     half2 weight = reg_buffer[i].t * reg_buffer[i].alpha;
                     if (enable_statistic)
                     {
@@ -702,6 +704,7 @@ __global__ void raster_backward_kernel(
                 point_color_x2.g = half2(params.rg.y, params.rg.y);
                 point_color_x2.b = half2(params.ba.x, params.ba.x);
                 point_color_x2.a = half2(params.ba.y, params.ba.y);
+                // TODO 高斯反向与标签属性 
                 
 
                 half2 grad_r = half2(0, 0);

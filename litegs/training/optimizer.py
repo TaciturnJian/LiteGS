@@ -81,6 +81,7 @@ def get_optimizer(xyz:torch.nn.Parameter,scale:torch.nn.Parameter,rot:torch.nn.P
         {'params': [opacity], 'lr': opt_setting.opacity_lr, "name": "opacity"},
         {'params': [scale], 'lr': opt_setting.scaling_lr, "name": "scale"},
         {'params': [rot], 'lr': opt_setting.rotation_lr, "name": "rot"}
+        # TODO 优化器添加高斯球属性
     ]
     if pipeline_setting.sparse_grad:
         optimizer = SparseGaussianAdam(l, lr=0, eps=1e-15,bCluster=pipeline_setting.cluster_size>0)

@@ -72,10 +72,12 @@ def start(lp:arguments.ModelParams,op:arguments.OptimizationParams,pp:arguments.
         sh_0=torch.nn.Parameter(sh_0)
         sh_rest=torch.nn.Parameter(sh_rest)
         opacity=torch.nn.Parameter(opacity)
+        # TODO 为高斯添加属性
         opt,schedular=optimizer.get_optimizer(xyz,scale,rot,sh_0,sh_rest,opacity,norm_radius,op,pp)
         start_epoch=0
     else:
         xyz,scale,rot,sh_0,sh_rest,opacity,start_epoch,opt,schedular=io_manager.load_checkpoint(start_checkpoint)
+        # TODO checkpoint 属性
     if pp.cluster_size:
         cluster_origin,cluster_extend=scene.cluster.get_cluster_AABB(xyz,scale.exp(),torch.nn.functional.normalize(rot,dim=0))
     actived_sh_degree=0
